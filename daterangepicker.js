@@ -442,6 +442,7 @@
                 this.startDate = this.maxDate;
 
             this.updateMonthsInView();
+            this.updateElementInput();
         },
 
         setEndDate: function(endDate) {
@@ -467,6 +468,7 @@
                 this.endDate = this.startDate.clone().add(this.dateLimit);
 
             this.updateMonthsInView();
+            this.updateElementInput();
         },
 
         updateView: function() {
@@ -921,6 +923,17 @@
             }
         },
 
+        updateElementInput: function() {
+            //if picker is attached to a text input, update it
+            if (this.element.is('input') && !this.singleDatePicker) {
+                this.element.val(this.startDate.format(this.locale.format) + this.locale.separator + this.endDate.format(this.locale.format));
+                this.element.trigger('change');
+            } else if (this.element.is('input')) {
+                this.element.val(this.startDate.format(this.locale.format));
+                this.element.trigger('change');
+            }
+        },
+
         move: function() {
             var parentOffset = { top: 0, left: 0 },
                 containerTop;
@@ -1004,6 +1017,8 @@
             this.isShowing = true;
         },
 
+
+
         hide: function(e) {
             if (!this.isShowing) return;
 
@@ -1017,14 +1032,7 @@
             if (!this.startDate.isSame(this.oldStartDate) || !this.endDate.isSame(this.oldEndDate))
                 this.callback(this.startDate, this.endDate, this.chosenLabel);
 
-            //if picker is attached to a text input, update it
-            if (this.element.is('input') && !this.singleDatePicker) {
-                this.element.val(this.startDate.format(this.locale.format) + this.locale.separator + this.endDate.format(this.locale.format));
-                this.element.trigger('change');
-            } else if (this.element.is('input')) {
-                this.element.val(this.startDate.format(this.locale.format));
-                this.element.trigger('change');
-            }
+            this.updateElementInput();
 
             $(document).off('.daterangepicker');
             this.container.hide();
