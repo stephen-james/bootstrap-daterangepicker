@@ -442,7 +442,6 @@
                 this.startDate = this.maxDate;
 
             this.updateMonthsInView();
-            this.updateElementInput();
         },
 
         setEndDate: function(endDate) {
@@ -468,7 +467,6 @@
                 this.endDate = this.startDate.clone().add(this.dateLimit);
 
             this.updateMonthsInView();
-            this.updateElementInput();
         },
 
         updateView: function() {
